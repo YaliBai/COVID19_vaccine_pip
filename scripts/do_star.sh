@@ -1,9 +1,9 @@
 #!/usr/bin/bash
 
-trim_galore=/share/newdata4/baiyl/basic/tools/TrimGalore-0.4.5/trim_galore
-STAR='/datum/newdata2/baiyl/project/bin/src/STAR-2.5.3a/STAR/bin/Linux_x86_64/STAR'
-genome=/share/home/baiyl/database/human/hg38/Index/STAR
-samtools='/share/newdata4/baiyl/basic/tools/anaconda2/bin/samtools'
+trim_galore='~/./TrimGalore-0.4.5/trim_galore'
+STAR='~/./STAR-2.5.3a/STAR/bin/Linux_x86_64/STAR'
+genome='~/./database/human/hg38/Index/STAR'
+samtools='~/./tools/anaconda2/bin/samtools'
 
 function run_pip {
 indir=$1
@@ -35,22 +35,22 @@ sbatch << RUN
 #SBATCH -e $outdir/logs/${id}.malbac.log
 set -x
 
-#$trim_galore --fastqc --paired \
-#        --phred33 \
-#        --retain_unpaired \
-#        --output_dir $outdir/trim \
-#        $Read1 $Read2
+$trim_galore --fastqc --paired \
+        --phred33 \
+        --retain_unpaired \
+        --output_dir $outdir/trim \
+        $Read1 $Read2
 
 
 
-#$STAR --runThreadN $SLURM_CPUS_PER_TASK \
-#	--genomeDir $genome \
-#	--readFilesIn $trim_r1 $trim_r2 \
-#	--readFilesCommand zcat \
-#	--outFileNamePrefix $prefix \
-#	--outSAMtype BAM \
-#	SortedByCoordinate --quantMode TranscriptomeSAM
-#
+$STAR --runThreadN $SLURM_CPUS_PER_TASK \
+	--genomeDir $genome \
+	--readFilesIn $trim_r1 $trim_r2 \
+	--readFilesCommand zcat \
+	--outFileNamePrefix $prefix \
+	--outSAMtype BAM \
+	SortedByCoordinate --quantMode TranscriptomeSAM
+
 
 
 $samtools sort -@ $SLURM_CPUS_PER_TASK -n -o $outdir/${id}.sortn.bam $bamout
@@ -66,8 +66,8 @@ RUN
 
 }
 
-raw_dir=/share/home/baiyl/merlot/COVID19_vaccine/datasets/20210218/malbac_data
-out_dir=/share/home/baiyl/merlot/COVID19_vaccine/datasets/20210218/output
+raw_dir=malbac_data
+out_dir=output
 
 mkdir -p $out_dir
 mkdir -p $out_dir/malbac
