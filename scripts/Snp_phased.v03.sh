@@ -1,10 +1,9 @@
 #!/usr/bin/bash
-bcftools='/share/home/baiyl/./basic/tools/anaconda2/bin/bcftools'
-samtools='/share/newdata4/baiyl/basic/tools/anaconda2/bin/samtools'
-ref_fa=/share/home/baiyl/./database/human/hg38/WholeGenomeFasta/hg38.fa
-ref_snps=/share/home/baiyl/merlot/COVID19_vaccine/SNPs/hg38_snp153_rmi.bed
-plink=/share/home/baiyl/basic/tools/plink2/plink2
-PRIMUS=/share/home/baiyl/basic/tools/PRIMUS_v1.9.0/bin/run_PRIMUS.pl
+bcftools='~/./tools/anaconda2/bin/bcftools'
+samtools='~/./tools/anaconda2/bin/samtools'
+ref_fa='~/./database/human/hg38/WholeGenomeFasta/hg38.fa
+ref_snps='~/./hg38_snp153_rmi.bed'
+
 vcftools=/share/newdata4/baiyl/basic/tools/anaconda2/bin/vcftools
 demuxlet=/share/soft/demuxlet/bin/demuxlet
 
@@ -129,29 +128,30 @@ RUN
 
 function merge_snp {
 new_order="chr1,chr10,chr11,chr12,chr13,chr14,chr15,chr16,chr17,chr18,chr19,chr2,chr20,chr21,chr22,chr3,chr4,chr5,chr6,chr7,chr8,chr9,chrM,chrX,chrY"
-#
-#
-#zcat  ${outdir}/ref_snps/${prefix}.cut.000*.snp_call_filter.vcf.gz ${outdir}/ref_snps/${prefix}.chrM.snp_call_filter.vcf.gz |grep -v "#" > ${outdir}/ref_snps/${prefix}.snp_call_filter.vcf.tmp
-#less ${outdir}/ref_snps/${prefix}.chrM.snp_call_filter.vcf.gz|grep "#" > ${outdir}/ref_snps/${prefix}.snp_call_filter.vcf.header
-#cat ${outdir}/ref_snps/${prefix}.snp_call_filter.vcf.header ${outdir}/ref_snps/${prefix}.snp_call_filter.vcf.tmp > ${outdir}/ref_snps/${prefix}.snp_call_filter.vcf
-#
-#$bcftools sort ${outdir}/ref_snps/${prefix}.snp_call_filter.vcf -O v -o ${outdir}/ref_snps/${prefix}.snp_call_filter.sorted.vcf
-#
-#
-#bgzip ${outdir}/ref_snps/${prefix}.snp_call_filter.sorted.vcf
-#bcftools index ${outdir}/ref_snps/${prefix}.snp_call_filter.sorted.vcf.gz
-#
-#bcftools view \
-#  -r $new_order \
-#  ${outdir}/ref_snps/${prefix}.snp_call_filter.sorted.vcf.gz \
-#  -O v \
-#  -o ${outdir}/ref_snps/${prefix}.snp_call_filter.sorted2.vcf
-#
-#new_cc=`echo $new_order|sed 's/,/\n/g'|while read cc; do less ${outdir}/ref_snps/${prefix}.snp_call_filter.vcf|grep "##contig=<ID=${cc},"; done`# > ${outdir}/ref_snps/${prefix}.snp_call_filter.contig.vcf
+
+
+zcat  ${outdir}/ref_snps/${prefix}.cut.000*.snp_call_filter.vcf.gz ${outdir}/ref_snps/${prefix}.chrM.snp_call_filter.vcf.gz |grep -v "#" > ${outdir}/ref_snps/${prefix}.snp_call_filter.vcf.tmp
+less ${outdir}/ref_snps/${prefix}.chrM.snp_call_filter.vcf.gz|grep "#" > ${outdir}/ref_snps/${prefix}.snp_call_filter.vcf.header
+cat ${outdir}/ref_snps/${prefix}.snp_call_filter.vcf.header ${outdir}/ref_snps/${prefix}.snp_call_filter.vcf.tmp > ${outdir}/ref_snps/${prefix}.snp_call_filter.vcf
+
+$bcftools sort ${outdir}/ref_snps/${prefix}.snp_call_filter.vcf -O v -o ${outdir}/ref_snps/${prefix}.snp_call_filter.sorted.vcf
+
+
+bgzip ${outdir}/ref_snps/${prefix}.snp_call_filter.sorted.vcf
+bcftools index ${outdir}/ref_snps/${prefix}.snp_call_filter.sorted.vcf.gz
+
+bcftools view \
+  -r $new_order \
+  ${outdir}/ref_snps/${prefix}.snp_call_filter.sorted.vcf.gz \
+  -O v \
+  -o ${outdir}/ref_snps/${prefix}.snp_call_filter.sorted2.vcf
+
+new_cc=`echo $new_order|sed 's/,/\n/g'|while read cc; do less ${outdir}/ref_snps/${prefix}.snp_call_filter.vcf|grep "##contig=<ID=${cc},"; done`# > ${outdir}/ref_snps/${prefix}.snp_call_filter.contig.vcf
 
 ##less ${outdir}/ref_snps/${prefix}.snp_call_filter.vcf|grep -v "#contig=<ID=[EKG]"| awk '$1 ~ /^#/ {print $0;next} {print $0 | "sort -k1,1 -k2,2n"}' > ${outdir}/ref_snps/${prefix}.snp_call_filter.sorted2.vcf
 less ${outdir}/ref_snps/${prefix}.snp_call_filter.vcf|grep -v "#contig=<ID=[EKG]"| awk '$1 ~ /^#/ {print $0;next} {print $0 | "sort -k1,1 -k2,2n"}' |sed "s#${MalbacBamdir}/##g"|sed 's/.rmdup.bam//g'  > ${outdir}/ref_snps/${prefix}.snp_call_filter.sorted2.vcf
-cat $new_cc <(grep -v "##contig=" ${outdir}/ref_snps/${prefix}.snp_call_filter.sorted2.vcf) > ${outdir}/ref_snps/${prefix}.snp_call_filter.sorted.vcf
+grep -v "##contig=" ${outdir}/ref_snps/${prefix}.snp_call_filter.sorted2.vcf > ${outdir}/ref_snps/${prefix}.snp_call_filter.sorted.vcf
+
 }
 
 function sep_snps {
@@ -161,28 +161,30 @@ set_prefix=$1
   --vcf ${outdir}/ref_snps/${prefix}.snp_call_filter.sorted.vcf \
   --field GT \
   --out ${outdir}/sep_files/${set_prefix}
-
-
 }
+
+bamdir=$1
+MalbacBamdir=$2
+outdir=$3
 
 
 #preprocess
-MalbacBamdir=/share/home/baiyl/merlot/COVID19_vaccine/datasets/20210218/output/malbac
+MalbacBamdir=malbac
 
 bamdir=01-cellranger/PR10_XXL_10X-RBD_1/outs/count
-outdir=merge/Seurat/PR10_XXL_10X-RBD_1/PhaseSNPs
+outdir=Seurat/PR10_XXL_10X-RBD_1/PhaseSNPs
 prefix=SF_refSnps
 
 mkdir -p $outdir
 mkdir -p $outdir/logs
 mkdir -p $outdir/ref_snps
-mkdir -p 
 
-#ref_snps
+
+ref_snps
 
 merge_snp
 
-#phased_snps
+phased_snps
 
 
 
