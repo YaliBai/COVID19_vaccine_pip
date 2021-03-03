@@ -3,8 +3,8 @@
 
 function do_mr {
 ## VDJ_SHMrate -- mutation rate
-Dir=/share/home/baiyl/merlot/COVID19_vaccine/src/ncbi-igblast-1.15.0
-Rscript='/share/soft/R/R-3.6.3/bin/Rscript'
+Dir='~/./ncbi-igblast-1.15.0
+Rscript='~/./R/R-3.6.3/bin/Rscript'
 sp=human
 
 id=$1
@@ -42,7 +42,7 @@ bin/igblastn \\
 -show_translation -outfmt 7
 
 grep ^[VDJ] $out |cut -f 1-6,8-10 > $reformat
-$Rscript /share/home/baiyl/merlot/COVID19_vaccine/src/20210121_VDJ_SHMrate/mutation_rate.R $reformat $mr
+$Rscript mutation_rate.R $reformat $mr
 
 set +x
 RUN
@@ -51,7 +51,7 @@ RUN
 
 
 
-outdir=/share/home/baiyl/merlot/COVID19_vaccine/datasets/20201207/01-cellranger/PR10_XXL_10X-RBD_1/outs/vdj_b
+outdir=01-cellranger/PR10_XXL_10X-RBD_1/outs/vdj_b
 
 
 
