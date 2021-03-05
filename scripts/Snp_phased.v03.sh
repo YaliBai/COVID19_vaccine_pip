@@ -4,7 +4,7 @@ samtools='~/./tools/anaconda2/bin/samtools'
 ref_fa='~/./database/human/hg38/WholeGenomeFasta/hg38.fa
 ref_snps='~/./hg38_snp153_rmi.bed'
 
-vcftools=/share/newdata4/baiyl/basic/tools/anaconda2/bin/vcftools
+vcftools=~/./tools/anaconda2/bin/vcftools
 demuxlet=/share/soft/demuxlet/bin/demuxlet
 
 bamdir=$1
@@ -53,10 +53,10 @@ done
 function ref_snps {
 # 切分跑
 
-#less  -S /share/home/baiyl/merlot/COVID19_vaccine/SNPs/hg38_snp153_rmi.new.bed |cut -f -3 > /share/home/baiyl/merlot/COVID19_vaccine/SNPs/hg38_snp153_rmi.clean.bed
-#bedtools split -i /share/home/baiyl/merlot/COVID19_vaccine/SNPs/hg38_snp153_rmi.clean.bed --prefix /share/home/baiyl/merlot/COVID19_vaccine/SNPs/hg38_snp153_rmi.cut -a simple  -n 20
+less  -S SNPs/hg38_snp153_rmi.new.bed |cut -f -3 > SNPs/hg38_snp153_rmi.clean.bed
+bedtools split -i SNPs/hg38_snp153_rmi.clean.bed --prefix SNPs/hg38_snp153_rmi.cut -a simple  -n 20
 
-ls /share/home/baiyl/merlot/COVID19_vaccine/SNPs/hg38_snp153_rmi.cut.*bed |while read cut_ref
+ls SNPs/hg38_snp153_rmi.cut.*bed |while read cut_ref
 do
   cut_name=`echo $cut_ref|sed 's/.*hg38_snp153_rmi.//g'|sed 's/.bed//g'`
 
