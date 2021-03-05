@@ -2,7 +2,7 @@
 
 
 
-### MalbacDT RNA-sequencing data processing
+### MALBAC-DT RNA-sequencing data processing
 > scripts/do_star.sh
 
 
