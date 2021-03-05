@@ -17,7 +17,8 @@
 #### >> Get ref SNPs
 total SNPs:15,160,915
 >>not in repeats
->> bedtools intersect -a hg38/dbsnp/dbSnp153Common.bed -b hg38/repeatMask/hg38.repeats.bed -v > SNPs/hg38_snp153_repeatmasker.bed
+>>
+bedtools intersect -a hg38/dbsnp/dbSnp153Common.bed -b hg38/repeatMask/hg38.repeats.bed -v > SNPs/hg38_snp153_repeatmasker.bed
 6942367 SNPs left
 
 >>not in imprinted genes (from geneimprint)
