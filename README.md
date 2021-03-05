@@ -15,18 +15,18 @@
 
 
 #### >> Get ref SNPs
-total SNPs:15,160,915
+--total SNPs:15,160,915
 >>not in repeats
 >>
 bedtools intersect -a hg38/dbsnp/dbSnp153Common.bed -b hg38/repeatMask/hg38.repeats.bed -v > SNPs/hg38_snp153_repeatmasker.bed
 
-6942367 SNPs left
+--6942367 SNPs left
 
 >>not in imprinted genes (from geneimprint)
 >>
 bedtools intersect -a SNPs/hg38_snp153_repeatmasker.bed -b hg38/imprinted_Genes/Impri.pos.bed -v > SNPs/hg38_snp153_rmi.bed
 
-6909945 SNPs left
+--6909945 SNPs left
 
 
 
