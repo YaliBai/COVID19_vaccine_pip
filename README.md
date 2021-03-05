@@ -22,7 +22,7 @@ bedtools intersect -a hg38/dbsnp/dbSnp153Common.bed -b hg38/repeatMask/hg38.repe
 6942367 SNPs left
 >>not in imprinted genes (from geneimprint)
 >>
-bedtools intersect -a /share/home/baiyl/merlot/COVID19_vaccine/SNPs/hg38_snp153_repeatmasker.bed -b /share/home/baiyl/database/human/hg38/imprinted_Genes/Impri.pos.bed -v > /share/home/baiyl/merlot/COVID19_vaccine/SNPs/hg38_snp153_rmi.bed
+bedtools intersect -a SNPs/hg38_snp153_repeatmasker.bed -b hg38/imprinted_Genes/Impri.pos.bed -v > SNPs/hg38_snp153_rmi.bed
 6909945 SNPs left
 
 
