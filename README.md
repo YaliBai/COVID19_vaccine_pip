@@ -1,16 +1,20 @@
 # COVID19_vaccine_pip
 
 
-
-### MALBAC-DT RNA-sequencing data processing
+---------------------------------------
+### > MALBAC-DT RNA-sequencing data processing
 > scripts/do_star.sh
 
 
-### Call donors' SNPs and 10x cell assignment
-> scripts/Snp_phased.v03.sh
-> 
 
-#### Get ref SNPs
+
+### > Call donors' SNPs and 10x cell assignment
+>scripts/Snp_phased.v03.sh
+
+
+
+
+#### >> Get ref SNPs
 total SNPs:15,160,915
 >>not in repeats
 >>
@@ -24,7 +28,8 @@ bedtools intersect -a /share/home/baiyl/merlot/COVID19_vaccine/SNPs/hg38_snp153_
 
 
 
-### the Somatic hypermutation rate
+
+### > the Somatic hypermutation rate
 >> main software: ncbi-igblast-1.15.0
 
 > scripts/do_mr.sh
